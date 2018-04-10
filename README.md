@@ -1,6 +1,6 @@
 # ay-lazy-load
 ## introduction
-a picture lazoy loader via promise
+a picture lazy loader via promise
 
 ## usage
 ```javascript

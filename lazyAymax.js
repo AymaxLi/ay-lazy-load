@@ -64,15 +64,28 @@ function initLazy (picList, limit, timeout) {
 
   return {
     run: _ => {
-      // 拼接代码
-      let codeStr = 'firstPromise'
-      picChunk.forEach((el, index) => {
-        // el.then(_ => console.log(`第 ${index + 1} 组 ok`))
-        codeStr += `.then(_ => {console.log("第 ${index + 1} 组 ok");return newPromise(picChunk[${index + 1}])})`
-      })
+      // 串行执行每个 chunk 的 promise
+      picChunk.reduce((pre, cur) => pre.then(_ => newPromise(cur)), Promise.resolve())
 
-      // 用函数构造器构造函数
-      new Function('firstPromise', 'newPromise', 'picChunk', codeStr)(newPromise(picChunk[0]), newPromise, picChunk)
-    }
+      // 上面是简略写法
+      // picChunk.reduce(function (pre, cur) {
+      //   return pre.then(function () {
+      //     return newPromise(cur)
+      //   })
+      // }, Promise.resolve())
+
+
+    // 下面方法弃用
+
+    //   // 拼接代码
+    //   let codeStr = 'firstPromise'
+    //   picChunk.forEach((el, index) => {
+    //     // el.then(_ => console.log(`第 ${index + 1} 组 ok`))
+    //     codeStr += `.then(_ => {console.log("第 ${index + 1} 组 ok");return newPromise(picChunk[${index + 1}])})`
+    //   })
+
+    //   // 用函数构造器构造函数并立即执行
+    //   new Function('firstPromise', 'newPromise', 'picChunk', codeStr)(newPromise(picChunk[0]), newPromise, picChunk)
+    // }
   }
 }
