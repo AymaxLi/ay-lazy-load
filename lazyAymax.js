@@ -86,6 +86,6 @@ function initLazy (picList, limit, timeout) {
 
     //   // 用函数构造器构造函数并立即执行
     //   new Function('firstPromise', 'newPromise', 'picChunk', codeStr)(newPromise(picChunk[0]), newPromise, picChunk)
-    // }
+    }
   }
 }
